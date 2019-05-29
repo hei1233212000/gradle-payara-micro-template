@@ -25,7 +25,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
-    compileOnly("javax:javaee-web-api:$jeeVersion")
+    providedCompile("javax:javaee-web-api:$jeeVersion")
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
