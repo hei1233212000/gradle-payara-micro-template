@@ -5,7 +5,7 @@ import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class UserService {
-    fun findById(id: Long) = User(
+    fun findById(id: Long): User = User(
         id = id,
         name = "Peter"
     )

@@ -1,6 +1,6 @@
 package poc.model
 
 data class User(
-    val id: Long,
-    val name: String
+    var id: Long? = null,
+    var name: String? = null
 )
