@@ -47,7 +47,7 @@ class UserEndPointTest {
 
         given()
             .accept(ContentType.JSON)
-        //`when`()
+        .`when`()
             .get("${url}api/users/$userId")
         .then()
             .statusCode(200)
@@ -68,7 +68,7 @@ class UserEndPointTest {
             .accept(ContentType.JSON)
             .contentType(ContentType.JSON)
             .body(payload)
-        //`when`()
+        .`when`()
             .post("${url}api/users/")
         .then()
             .statusCode(201)
