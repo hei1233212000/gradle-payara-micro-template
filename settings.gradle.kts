@@ -1,1 +1,1 @@
-rootProject.name = "gradle-payara-template"
+rootProject.name = "gradle-payara-micro-template"
