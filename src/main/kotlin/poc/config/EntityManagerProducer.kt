@@ -6,7 +6,7 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 @RequestScoped
-class EntityManagerProvider {
+class EntityManagerProducer {
     @PersistenceContext(unitName = "MyPU")
     private lateinit var entityManager: EntityManager
 

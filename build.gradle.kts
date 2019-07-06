@@ -7,7 +7,7 @@ plugins {
     idea
     kotlin("jvm") version kotlinVersion
     war
-    id("fish.payara.micro-gradle-plugin") version "1.0.1"
+    id("fish.payara.micro-gradle-plugin") version "1.0.2"
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
@@ -69,6 +69,7 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     dependsOn("copyPayaraMicro")
     environment("MICRO_JAR", "$payaraMicroJarDir/$payaraMicroJarName")
+    environment("EXTRA_MICRO_OPTIONS", "--postbootcommandfile $projectDir/config/post-boot-command.txt")
 
     useJUnitPlatform {
         includeEngines("spek2", "junit-vintage")
@@ -78,7 +79,7 @@ tasks.withType<Test> {
 }
 
 task<Copy>("copyPayaraMicro") {
-    from(configurations.testRuntime.get().files({ it.name == "payara-micro" }))
+    from(configurations.testRuntime.get().files { it.name == "payara-micro" })
     into(payaraMicroJarDir)
     rename { payaraMicroJarName }
 }
@@ -87,6 +88,9 @@ payaraMicro {
     payaraVersion = payaraMicroVersion
     deployWar = false
     useUberJar = true
+    commandLineOptions = mapOf(
+        "postbootcommandfile" to "$projectDir/config/post-boot-command.txt"
+    )
     /*javaCommandLineOptions = mapOf(
         "add-modules" to "java.xml.bind",
         "add-opens" to "java.base/jdk.internal.loader=ALL-UNNAMED"
