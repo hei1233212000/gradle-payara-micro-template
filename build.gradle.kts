@@ -3,12 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
+    val kotlinVersion = "1.3.41"
     idea
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version kotlinVersion
     war
     id("fish.payara.micro-gradle-plugin") version "1.0.1"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.31"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.3.31"
+    id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
     jacoco
 }
@@ -31,7 +33,7 @@ val restAssuredVersion = "4.0.0"
 val payaraMicroVersion = "5.192"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
-val payaraMicroJarName = "payara-micor.jar"
+val payaraMicroJarName = "payara-micro.jar"
 dependencyManagement {
     imports {
         mavenBom("org.jboss.arquillian:arquillian-bom:$arquillianVersion")

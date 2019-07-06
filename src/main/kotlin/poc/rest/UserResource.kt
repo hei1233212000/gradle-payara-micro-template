@@ -1,6 +1,6 @@
 package poc.rest
 
-import poc.model.User
+import poc.model.dto.User
 import poc.service.UserService
 import javax.enterprise.context.RequestScoped
 import javax.inject.Inject
@@ -18,17 +18,17 @@ class UserResource @Inject constructor(
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun findById(@PathParam("id") id: Long) = userService.findById(id)
+    fun findById(@PathParam("id") id: Long): User? = userService.findById(id)
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     fun createUser(newUser: User): Response {
-        val result = newUser.copy(id = 99)
-        val uriBuilder = uriInfo.absolutePathBuilder.path(result.id.toString())
+        val persistedUser = userService.create(newUser.name!!)
+        val uriBuilder = uriInfo.absolutePathBuilder.path(persistedUser.id.toString())
 
         return Response.created(uriBuilder.build())
-            .entity(result)
+            .entity(persistedUser)
             .build()
     }
 }

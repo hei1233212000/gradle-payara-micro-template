@@ -1,4 +1,4 @@
-package poc.model
+package poc.model.dto
 
 data class User(
     var id: Long? = null,

@@ -3,9 +3,10 @@ package poc.rest
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.amshove.kluent.`should be`
+import org.amshove.kluent.`should not be`
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
-import poc.model.User
+import poc.model.dto.User
 import poc.service.UserService
 import javax.ws.rs.core.UriInfo
 
@@ -21,7 +22,7 @@ object FindUserFeature : Spek({
                 id = userId,
                 name = "Tom"
             )
-            lateinit var result: User
+            var result: User? = null
 
             When("User with id = $userId exist in DB") {
                 userService = mock {
@@ -35,12 +36,16 @@ object FindUserFeature : Spek({
                 result = userResource.findById(userId)
             }
 
+            Then("The result should NOT be NULL") {
+                result `should not be` null
+            }
+
             Then("The id of the result should be $userId") {
-                result.id `should be` userId
+                result?.id `should be` userId
             }
 
             Then("The name of the result should be ${user.name}") {
-                result.name `should be` user.name
+                result?.name `should be` user.name
             }
         }
     }
