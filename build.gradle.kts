@@ -23,14 +23,18 @@ repositories {
 }
 
 val jeeVersion = "8.0.1"
+val payaraMicroVersion = "5.192"
+val log4j2Version = "2.12.0"
+val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
+
 val junitVersion = "5.5.0-RC1"
 val spekVersion = "2.0.5"
 val kluentVersion = "1.49"
 val mockitoKotlinVersion = "2.1.0"
 val arquillianVersion = "1.4.1.Final"
 val arquillianPayaraMicroContainerVersion = "1.0.Beta3"
+val shrinkwrapVersion = "3.1.3"
 val restAssuredVersion = "4.0.0"
-val payaraMicroVersion = "5.192"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
@@ -42,6 +46,12 @@ dependencyManagement {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
+
+    implementation("org.apache.logging.log4j:log4j-slf4j18-impl:$log4j2Version")
+    implementation("org.slf4j:osgi-over-slf4j:$slf4jVersion")
+    implementation("org.slf4j:jul-to-slf4j:$slf4jVersion")
+    implementation("org.slf4j:log4j-over-slf4j:$slf4jVersion")
+    implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")
 
     providedCompile("javax:javaee-web-api:$jeeVersion")
 
@@ -57,6 +67,7 @@ dependencies {
 
     testImplementation("org.junit.vintage:junit-vintage-engine:$junitVersion")
     testImplementation("org.jboss.arquillian.junit:arquillian-junit-container")
+    testImplementation("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-gradle:$shrinkwrapVersion")
     testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-5-managed:$arquillianPayaraMicroContainerVersion")
     testRuntime("fish.payara.extras:payara-micro:$payaraMicroVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")

@@ -11,14 +11,14 @@ import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
 import org.jboss.arquillian.test.api.ArquillianResource
 import org.jboss.shrinkwrap.api.ShrinkWrap
-import org.jboss.shrinkwrap.api.asset.EmptyAsset
 import org.jboss.shrinkwrap.api.spec.WebArchive
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import java.net.URI
-import kotlin.reflect.KClass
+import org.jboss.shrinkwrap.api.spec.JavaArchive
+import org.jboss.shrinkwrap.resolver.impl.gradle.Gradle
 
 @RunWith(Arquillian::class)
 class UserEndPointTest {
@@ -26,14 +26,21 @@ class UserEndPointTest {
     lateinit var url: URI
 
     companion object {
+        private val thirdPartyLibraries = Gradle.resolver()
+            .forProjectDirectory(".")
+            .importCompileAndRuntime()
+            .resolve()
+            .asList(JavaArchive::class.java)
+
         @JvmStatic
         @Deployment
         fun createDeployment() = ShrinkWrap.create(WebArchive::class.java)
             .addPackages(true, "poc")
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
             .addAsResource("META-INF/init.sql", "META-INF/init.sql")
-            .addAsLibraries(File(KClass::class.java.protectionDomain.codeSource.location.file))
+            .addAsResource("log4j2.xml", "log4j2.xml")
+            .addAsWebInfResource(File("src/main/webapp/WEB-INF/beans.xml"), "beans.xml")
+            .addAsLibraries(thirdPartyLibraries)
 
     }
 
