@@ -38,6 +38,13 @@ val restAssuredVersion = "4.0.0"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
+val payaraMicroJarPath = "$payaraMicroJarDir/$payaraMicroJarName"
+
+val warTask = tasks["war"] as War
+val explodedWarDir = "$buildDir/${project.name}"
+
+val payaraMicroPostBootCommandScript = "$projectDir/config/post-boot-command.txt"
+
 dependencyManagement {
     imports {
         mavenBom("org.jboss.arquillian:arquillian-bom:$arquillianVersion")
@@ -95,17 +102,49 @@ task<Copy>("copyPayaraMicro") {
     rename { payaraMicroJarName }
 }
 
+/**
+ * Use exploder War can make you update publish the update of JSF template immediately
+ */
+task<Copy>("explodedWar") {
+    into(explodedWarDir)
+    with(warTask)
+}
+
+/**
+ * We create a custom task instead of using Payara Gradle Plugin because the plugin now is just providing very limited features to us
+ *
+ * It will use the Java version set by user
+ *
+ * TODO: As Java 11 will remove the JEE modules, we need to update this task when using Java 11+
+ */
+task<Exec>("runApp") {
+    executable("java")
+
+    args(listOf(
+        "--add-modules",
+        "java.xml.bind",
+        "--add-opens",
+        "java.base/jdk.internal.loader=ALL-UNNAMED",
+        "-jar",
+        payaraMicroJarPath,
+        "--autoBindHttp",
+        "--nocluster",
+        "--postbootcommandfile",
+        payaraMicroPostBootCommandScript,
+        "--deploy",
+        explodedWarDir
+    ))
+}.dependsOn("copyPayaraMicro", "explodedWar")
+
+/**
+ * Check the guide in https://docs.payara.fish/documentation/ecosystem/gradle-plugin.html
+ */
 payaraMicro {
     payaraVersion = payaraMicroVersion
-    deployWar = false
     useUberJar = true
     commandLineOptions = mapOf(
-        "postbootcommandfile" to "$projectDir/config/post-boot-command.txt"
+        "postbootcommandfile" to payaraMicroPostBootCommandScript
     )
-    /*javaCommandLineOptions = mapOf(
-        "add-modules" to "java.xml.bind",
-        "add-opens" to "java.base/jdk.internal.loader=ALL-UNNAMED"
-    )*/
 }
 
 jacoco {

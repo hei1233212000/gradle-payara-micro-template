@@ -1,5 +1,5 @@
 ### Start
->$ ./gradlew clean build microBundle microStart
+>$ ./gradlew clean build runApp
 
-### Stop
->$ ./gradlew microStop
+### Remarks:
+- Java 10+ is not working yet
