@@ -20,6 +20,9 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     jcenter()
+    maven {
+        url = uri("https://repo.gradle.org/gradle/libs-releases-local/")
+    }
 }
 
 val jeeVersion = "8.0.1"
@@ -35,6 +38,7 @@ val arquillianVersion = "1.4.1.Final"
 val arquillianPayaraMicroContainerVersion = "1.0.Beta3"
 val shrinkwrapVersion = "3.1.3"
 val restAssuredVersion = "4.0.0"
+val gradleToolApiVersion = "5.5.1"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
@@ -74,7 +78,10 @@ dependencies {
 
     testImplementation("org.junit.vintage:junit-vintage-engine:$junitVersion")
     testImplementation("org.jboss.arquillian.junit:arquillian-junit-container")
-    testImplementation("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-gradle:$shrinkwrapVersion")
+    testImplementation("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-gradle:$shrinkwrapVersion") {
+        exclude(module = "gradle-tooling-api")
+    }
+    testImplementation("org.gradle:gradle-tooling-api:$gradleToolApiVersion")
     testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-5-managed:$arquillianPayaraMicroContainerVersion")
     testRuntime("fish.payara.extras:payara-micro:$payaraMicroVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
