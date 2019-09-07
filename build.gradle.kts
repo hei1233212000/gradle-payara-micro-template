@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    val kotlinVersion = "1.3.41"
+    val kotlinVersion = "1.3.50"
     idea
     kotlin("jvm") version kotlinVersion
     war
@@ -26,7 +26,7 @@ repositories {
 }
 
 val jeeVersion = "8.0.1"
-val payaraMicroVersion = "5.192"
+val payaraMicroVersion = "5.193"
 val log4j2Version = "2.12.0"
 val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
 
