@@ -121,17 +121,11 @@ task<Copy>("explodedWar") {
  * We create a custom task instead of using Payara Gradle Plugin because the plugin now is just providing very limited features to us
  *
  * It will use the Java version set by user
- *
- * TODO: As Java 11 will remove the JEE modules, we need to update this task when using Java 11+
  */
 task<Exec>("runApp") {
     executable("java")
 
     args(listOf(
-        "--add-modules",
-        "java.xml.bind",
-        "--add-opens",
-        "java.base/jdk.internal.loader=ALL-UNNAMED",
         "-jar",
         payaraMicroJarPath,
         "--autoBindHttp",
