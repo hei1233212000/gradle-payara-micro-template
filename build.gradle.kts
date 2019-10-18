@@ -25,8 +25,8 @@ repositories {
     }
 }
 
-val jeeVersion = "8.0.1"
-val payaraMicroVersion = "5.193"
+val jakartaeeVersion = "8.0.0"
+val payaraMicroVersion = "5.193.1"
 val log4j2Version = "2.12.0"
 val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
 
@@ -64,7 +64,7 @@ dependencies {
     implementation("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")
 
-    providedCompile("javax:javaee-web-api:$jeeVersion")
+    providedCompile("jakarta.platform:jakarta.jakartaee-api:$jakartaeeVersion")
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
@@ -84,7 +84,10 @@ dependencies {
     testImplementation("org.gradle:gradle-tooling-api:$gradleToolApiVersion")
     testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-5-managed:$arquillianPayaraMicroContainerVersion")
     testRuntime("fish.payara.extras:payara-micro:$payaraMicroVersion")
-    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+        // suspend the warning of "'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} in com.sun.xml.bind:jaxb-osgi:2.2.10"
+        exclude(module = "jaxb-osgi")
+    }
 }
 
 tasks.withType<KotlinCompile> {
