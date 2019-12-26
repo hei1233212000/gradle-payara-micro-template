@@ -26,7 +26,7 @@ repositories {
 }
 
 val jakartaeeVersion = "8.0.0"
-val payaraMicroVersion = "5.193.1"
+val payaraMicroVersion = "5.194"
 val log4j2Version = "2.12.0"
 val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
 
