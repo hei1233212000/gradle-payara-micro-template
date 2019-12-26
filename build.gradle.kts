@@ -91,6 +91,10 @@ dependencies {
     }
 }
 
+tasks.war {
+    archiveFileName.set("${project.name}.war")
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
