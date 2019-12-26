@@ -54,6 +54,7 @@ dependencyManagement {
         mavenBom("org.jboss.arquillian:arquillian-bom:$arquillianVersion")
     }
 }
+
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
@@ -152,7 +153,7 @@ payaraMicro {
 }
 
 jacoco {
-    toolVersion = "0.8.4"
+    toolVersion = "0.8.5"
 }
 
 configure<AllOpenExtension> {
