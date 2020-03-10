@@ -161,6 +161,7 @@ jacoco {
 }
 
 configure<AllOpenExtension> {
+    annotation("javax.persistence.Entity")
     annotation("javax.enterprise.context.RequestScoped")
     annotation("javax.enterprise.context.ApplicationScoped")
 }
