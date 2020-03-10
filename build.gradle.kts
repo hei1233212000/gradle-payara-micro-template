@@ -3,15 +3,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    val kotlinVersion = "1.3.50"
+    val kotlinVersion = "1.3.70"
     idea
     kotlin("jvm") version kotlinVersion
     war
-    id("fish.payara.micro-gradle-plugin") version "1.0.2"
+    id("fish.payara.micro-gradle-plugin") version "1.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
     jacoco
 }
 
@@ -27,18 +27,18 @@ repositories {
 
 val jakartaeeVersion = "8.0.0"
 val payaraMicroVersion = "5.201"
-val log4j2Version = "2.12.0"
-val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
+val log4j2Version = "2.13.1"
+val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
 
-val junitVersion = "5.5.0-RC1"
-val spekVersion = "2.0.5"
-val kluentVersion = "1.49"
-val mockitoKotlinVersion = "2.1.0"
+val junitVersion = "5.6.0"
+val spekVersion = "2.0.9"
+val kluentVersion = "1.59"
+val mockitoKotlinVersion = "2.2.0"
 val arquillianVersion = "1.4.1.Final"
 val arquillianPayaraMicroContainerVersion = "1.0.Beta3"
 val shrinkwrapVersion = "3.1.3"
-val restAssuredVersion = "4.0.0"
-val gradleToolApiVersion = "5.5.1"
+val restAssuredVersion = "4.2.0"
+val gradleToolApiVersion = "6.2.2"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
