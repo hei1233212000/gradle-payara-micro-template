@@ -23,9 +23,11 @@ repositories {
     maven {
         url = uri("https://repo.gradle.org/gradle/libs-releases-local/")
     }
+    maven {
+        url = uri("https://raw.github.com/payara/Payara_PatchedProjects/master")
+    }
 }
 
-val jakartaeeVersion = "8.0.0"
 val payaraMicroVersion = "5.2020.2"
 val log4j2Version = "2.13.1"
 val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
@@ -34,11 +36,9 @@ val junitVersion = "5.6.0"
 val spekVersion = "2.0.9"
 val kluentVersion = "1.59"
 val mockitoKotlinVersion = "2.2.0"
-val arquillianVersion = "1.4.1.Final"
-val arquillianPayaraMicroContainerVersion = "1.0.Beta3"
-val shrinkwrapVersion = "3.1.3"
+val arquillianVersion = "1.5.0.Final"
+val shrinkwrapVersion = "3.1.4"
 val restAssuredVersion = "4.2.0"
-val gradleToolApiVersion = "6.2.2"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
@@ -51,6 +51,7 @@ val payaraMicroPostBootCommandScript = "$projectDir/config/post-boot-command.txt
 
 dependencyManagement {
     imports {
+        mavenBom("fish.payara.api:payara-bom:$payaraMicroVersion")
         mavenBom("org.jboss.arquillian:arquillian-bom:$arquillianVersion")
     }
 }
@@ -65,7 +66,7 @@ dependencies {
     implementation("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")
 
-    providedCompile("jakarta.platform:jakarta.jakartaee-api:$jakartaeeVersion")
+    providedCompile("jakarta.platform:jakarta.jakartaee-api")
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
@@ -82,9 +83,9 @@ dependencies {
     testImplementation("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-gradle:$shrinkwrapVersion") {
         exclude(module = "gradle-tooling-api")
     }
-    testImplementation("org.gradle:gradle-tooling-api:$gradleToolApiVersion")
-    testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-5-managed:$arquillianPayaraMicroContainerVersion")
-    testRuntime("fish.payara.extras:payara-micro:$payaraMicroVersion")
+    testImplementation("org.gradle:gradle-tooling-api:${gradle.gradleVersion}")
+    testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-managed")
+    testRuntime("fish.payara.extras:payara-micro")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
         // suspend the warning of "'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} in com.sun.xml.bind:jaxb-osgi:2.2.10"
         exclude(module = "jaxb-osgi")
@@ -133,16 +134,18 @@ task<Copy>("explodedWar") {
 task<Exec>("runApp") {
     executable("java")
 
-    args(listOf(
-        "-jar",
-        payaraMicroJarPath,
-        "--autoBindHttp",
-        "--nocluster",
-        "--postbootcommandfile",
-        payaraMicroPostBootCommandScript,
-        "--deploy",
-        explodedWarDir
-    ))
+    args(
+        listOf(
+            "-jar",
+            payaraMicroJarPath,
+            "--autoBindHttp",
+            "--nocluster",
+            "--postbootcommandfile",
+            payaraMicroPostBootCommandScript,
+            "--deploy",
+            explodedWarDir
+        )
+    )
 }.dependsOn("copyPayaraMicro", "explodedWar")
 
 /**
