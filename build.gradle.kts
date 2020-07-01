@@ -35,7 +35,7 @@ val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
 val junitVersion = "5.6.0"
 val spekVersion = "2.0.9"
 val kluentVersion = "1.59"
-val mockitoKotlinVersion = "2.2.0"
+val mockkVersion = "1.10.0"
 val arquillianVersion = "1.5.0.Final"
 val shrinkwrapVersion = "3.1.4"
 val restAssuredVersion = "4.2.0"
@@ -76,7 +76,7 @@ dependencies {
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
 
     testImplementation("org.amshove.kluent:kluent:$kluentVersion")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
 
     testImplementation("org.junit.vintage:junit-vintage-engine:$junitVersion")
     testImplementation("org.jboss.arquillian.junit:arquillian-junit-container")

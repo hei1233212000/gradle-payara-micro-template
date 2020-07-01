@@ -1,7 +1,7 @@
 package poc.rest
 
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
+import io.mockk.every
+import io.mockk.mockk
 import org.amshove.kluent.`should be`
 import org.amshove.kluent.`should not be`
 import org.spekframework.spek2.Spek
@@ -25,10 +25,9 @@ object FindUserFeature : Spek({
             var result: User? = null
 
             When("User with id = $userId exist in DB") {
-                userService = mock {
-                    on { findById(userId) } doReturn user
-                }
-                uriInfo = mock()
+                userService = mockk()
+                every { userService.findById(userId) } returns user
+                uriInfo = mockk()
                 userResource = UserResource(userService, uriInfo)
             }
 
