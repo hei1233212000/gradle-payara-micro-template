@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    val kotlinVersion = "1.4.10"
+    val kotlinVersion = "1.4.31"
     idea
     kotlin("jvm") version kotlinVersion
     war
@@ -11,7 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
     jacoco
 }
 
@@ -26,19 +26,22 @@ repositories {
     maven {
         url = uri("https://raw.github.com/payara/Payara_PatchedProjects/master")
     }
+    maven {
+        url = uri("https://nexus.payara.fish/repository/payara-artifacts")
+    }
 }
 
-val payaraMicroVersion = "5.2020.5"
-val log4j2Version = "2.13.3"
+val payaraMicroVersion = "5.2021.2"
+val log4j2Version = "2.14.1"
 val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
 
-val junitVersion = "5.7.0"
-val spekVersion = "2.0.9"
-val kluentVersion = "1.61"
-val mockkVersion = "1.10.2"
+val junitVersion = "5.8.0-M1"
+val spekVersion = "2.0.15"
+val kluentVersion = "1.65"
+val mockkVersion = "1.11.0"
 val arquillianVersion = "1.6.0.Final"
 val shrinkwrapVersion = "3.1.4"
-val restAssuredVersion = "4.3.1"
+val restAssuredVersion = "4.3.3"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
